@@ -20,5 +20,14 @@ jobs:
       - uses: ./
         with:
           list: 'test ok'
+          action: 'uncheck'
+          error: 'warn'
+      - run: |
+          yarn
+      - run: |
+          yarn all
+      - uses: ./
+        with:
+          list: 'test ok'
           action: 'check'
           error: 'warn'

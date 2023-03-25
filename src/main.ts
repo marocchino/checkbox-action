@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
-import { error } from './config'
-import { getBody, contains, update, mutate } from './check'
+import {error} from './config'
+import {getBody, contains, update, mutate} from './check'
 
 async function run(): Promise<void> {
   try {
@@ -22,6 +22,5 @@ async function run(): Promise<void> {
     }
   }
 }
-
 
 run()

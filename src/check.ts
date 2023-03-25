@@ -1,4 +1,4 @@
-import { list, matches, action, token } from './config'
+import {list, matches, action, token} from './config'
 import * as github from '@actions/github'
 
 export async function getBody(): Promise<string> {
@@ -13,7 +13,7 @@ export async function getBody(): Promise<string> {
   const octokit = github.getOctokit(token)
   const result = await octokit.rest.issues.get({
     ...github.context.repo,
-    issue_number: number,
+    issue_number: number
   })
   return result.data.body || ''
 }
@@ -26,7 +26,7 @@ export function contains(body: string): boolean {
   const letterFrom = action === 'check' ? ' ' : 'x'
 
   if (list.length > 0) {
-    result = list.some((item) => {
+    result = list.some(item => {
       const regexp = new RegExp(`- \\[${letterFrom}\\] ${item}$`, 'm')
       return regexp.test(body)
     })

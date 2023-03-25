@@ -1,5 +1,5 @@
-import { beforeEach, afterEach, expect, jest, test } from '@jest/globals'
-import type { Action, ErrorLevel } from '../src/config'
+import {beforeEach, afterEach, expect, jest, test} from '@jest/globals'
+import type {Action, ErrorLevel} from '../src/config'
 
 beforeEach(() => {
   process.env['INPUT_LIST'] = ''

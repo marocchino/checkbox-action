@@ -1,10 +1,6 @@
 name: 'build-test'
 on: # rebuild any PRs and main branch changes
   pull_request:
-  push:
-    branches:
-      - main
-      - 'releases/*'
 
 jobs:
   build: # make sure build/ci work properly
@@ -12,13 +8,26 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          npm install
+          yarn
       - run: |
-          npm run all
+          yarn all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
       - uses: ./
         with:
-          milliseconds: 1000
+          list: 'test ok'
+          action: 'uncheck'
+          error: 'warn'
+      - run: |
+          yarn
+      - run: |
+          yarn all
+      - uses: ./
+        with:
+          list: 'test ok'
+          action: 'check'
+          error: 'warn'

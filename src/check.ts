@@ -5,9 +5,6 @@ export async function getBody(): Promise<string> {
   if (!github.context.payload.pull_request) {
     throw new Error('Triggered event is not a pull request')
   }
-  if (github.context.payload.pull_request.body) {
-    return github.context.payload.pull_request.body
-  }
 
   const number = github.context.payload.pull_request.number
   const octokit = github.getOctokit(token)

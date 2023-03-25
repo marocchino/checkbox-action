@@ -47,9 +47,6 @@ function getBody() {
         if (!github.context.payload.pull_request) {
             throw new Error('Triggered event is not a pull request');
         }
-        if (github.context.payload.pull_request.body) {
-            return github.context.payload.pull_request.body;
-        }
         const number = github.context.payload.pull_request.number;
         const octokit = github.getOctokit(config_1.token);
         const result = yield octokit.rest.issues.get(Object.assign(Object.assign({}, github.context.repo), { issue_number: number }));

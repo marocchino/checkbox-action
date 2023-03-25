@@ -16,7 +16,7 @@ TBD
 ### `list`
 
 **Optional** However, one of the list and matches required.
-Comma separated List of checkboxes to modify.
+Line separated List of checkboxes to modify.
 
 ### `matches`
 

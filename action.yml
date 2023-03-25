@@ -13,7 +13,7 @@ github-token:
 inputs:
   list:
     required: false
-    description: 'Comma separated List of checkboxes to modify. ex) list 1, list 2'
+    description: 'Line separated List of checkboxes to modify. ex) list 1\nlist 2'
     default: ''
   matches:
     required: false

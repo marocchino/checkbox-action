@@ -1,11 +1,34 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Checkbox Action'
+description: 'Checks or unchecks a checkbox in the body of the pull request.'
+author: 'marocchino'
+github-token:
+  action-input:
+    input: GITHUB_TOKEN
+    is-default: true
+
+  permissions:
+    pull-requests: write
+    pull-requests-reason: to update PR body
+
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  list:
+    required: false
+    description: 'Comma separated List of checkboxes to modify. ex) list 1, list 2'
+  matches:
+    required: false
+    description: 'Regular expression for the checkbox to modify.'
+  action:
+    required: false
+    description: 'check, uncheck. This default to check'
+    default: 'check'
+  not-found:
+    required: false
+    description: 'skip or error. Specifies whether to skip or raise an error when checkbox not found. This defaults to skip'
+    default: 'error'
+  GITHUB_TOKEN:
+    description: "The GitHub access token (e.g. secrets.GITHUB_TOKEN) used to update the body. This defaults to {{ github.token }}."
+    default: "${{ github.token }}"
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -27,9 +27,9 @@ Regular expression for the checkbox to modify.
 
 **Optional** check, uncheck. This default to `'check'`
 
-### `not-found`
+### `error`
 
-**Optional** skip or error. Specifies whether to skip or raise an error when checkbox not found. This defaults to skip
+**Optional** error, warn or ignore. Specifies whether to skip or raise an error when error occurred. This defaults to error
 
 ### `GITHUB_TOKEN`
 

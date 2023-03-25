@@ -14,16 +14,18 @@ inputs:
   list:
     required: false
     description: 'Comma separated List of checkboxes to modify. ex) list 1, list 2'
+    default: ''
   matches:
     required: false
     description: 'Regular expression for the checkbox to modify.'
+    default: ''
   action:
     required: false
     description: 'check, uncheck. This default to check'
     default: 'check'
-  not-found:
+  error:
     required: false
-    description: 'skip or error. Specifies whether to skip or raise an error when checkbox not found. This defaults to skip'
+    description: 'error, warn or ignore. Specifies whether to skip or raise an error when error occurred. This defaults to error'
     default: 'error'
   GITHUB_TOKEN:
     description: "The GitHub access token (e.g. secrets.GITHUB_TOKEN) used to update the body. This defaults to {{ github.token }}."

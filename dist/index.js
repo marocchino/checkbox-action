@@ -145,6 +145,77 @@ exports.token = core.getInput('GITHUB_TOKEN', { required: true });
 
 /***/ }),
 
+/***/ 2955:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getDiff = exports.getCurrentBody = exports.getPreviousBody = void 0;
+const github = __importStar(__nccwpck_require__(5438));
+function getPreviousBody() {
+    if (!github.context.payload.pull_request) {
+        throw new Error('This action only supports pull_request events');
+    }
+    return github.context.payload.changes.body.from;
+}
+exports.getPreviousBody = getPreviousBody;
+function getCurrentBody() {
+    if (!github.context.payload.pull_request) {
+        throw new Error('This action only supports pull_request events');
+    }
+    return github.context.payload.pull_request.body || '';
+}
+exports.getCurrentBody = getCurrentBody;
+function getDiff(previousBody, currentBody) {
+    const previousLines = previousBody.split('\n');
+    const currentLines = currentBody.split('\n');
+    const checkRegexp = /^\s*- \[x\] /;
+    const uncheckRegexp = /^\s*- \[ \] /;
+    const prevChecked = previousLines
+        .filter(line => checkRegexp.test(line))
+        .map(line => line.replace(checkRegexp, ''));
+    const prevUnchecked = previousLines
+        .filter(line => uncheckRegexp.test(line))
+        .map(line => line.replace(uncheckRegexp, ''));
+    const currChecked = currentLines
+        .filter(line => checkRegexp.test(line))
+        .map(line => line.replace(checkRegexp, ''));
+    const currUnchecked = currentLines
+        .filter(line => uncheckRegexp.test(line))
+        .map(line => line.replace(uncheckRegexp, ''));
+    const checked = currChecked.filter(line => prevUnchecked.includes(line));
+    const unchecked = currUnchecked.filter(line => prevChecked.includes(line));
+    return { checked, unchecked };
+}
+exports.getDiff = getDiff;
+
+
+/***/ }),
+
 /***/ 3109:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -186,9 +257,18 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const config_1 = __nccwpck_require__(88);
 const check_1 = __nccwpck_require__(7657);
+const detect_1 = __nccwpck_require__(2955);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            if (config_1.action === 'detect') {
+                const previousBody = (0, detect_1.getPreviousBody)();
+                const currentBody = (0, detect_1.getCurrentBody)();
+                const { checked, unchecked } = (0, detect_1.getDiff)(previousBody, currentBody);
+                core.setOutput('checked', JSON.stringify(checked));
+                core.setOutput('unchecked', JSON.stringify(unchecked));
+                return;
+            }
             let body = yield (0, check_1.getBody)();
             if (!(0, check_1.contains)(body)) {
                 switch (config_1.error) {

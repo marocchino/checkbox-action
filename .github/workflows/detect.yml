@@ -1,0 +1,22 @@
+name: 'detect-test'
+on:
+  pull_request:
+    types:
+      - edited
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      checked: ${{ steps.detect.outputs.checked }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        id: detect
+        with:
+          action: 'detect'
+  test:
+    needs: detect
+    if: ${{ contains(fromJSON(needs.detect.outputs.checked), 'trigger test') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo TEST TRIGGERED

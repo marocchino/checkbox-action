@@ -21,7 +21,7 @@ inputs:
     default: ''
   action:
     required: false
-    description: 'check, uncheck. This default to check'
+    description: 'check, uncheck or detect. This default to check'
     default: 'check'
   error:
     required: false
@@ -31,6 +31,11 @@ inputs:
     description: "The GitHub access token (e.g. secrets.GITHUB_TOKEN) used to update the body. This defaults to {{ github.token }}."
     default: "${{ github.token }}"
     required: false
+outputs:
+  checked:
+    description: 'Returns a list of checked items from the previous modification as json in []string.'
+  unchecked:
+    description: 'Returns a list of unchecked items from the previous modification as json in []string.'
 runs:
   using: 'node16'
   main: 'dist/index.js'

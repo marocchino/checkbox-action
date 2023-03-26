@@ -4,7 +4,10 @@
 
 # Checkbox Action
 
-Checks or unchecks a checkbox in the body of the pull request.
+It works in two main ways:
+1. Checks or unchecks a checkbox in the body of the pull request.
+2. Returns the list, confirming the change in the checkbox.
+
 This library runs with GitHub Actions. If you feel that the example grammar below is not friendly enough, we recommend reading [this page](https://docs.github.com/en/actions) first.
 
 ## Usage
@@ -64,19 +67,21 @@ jobs:
 
 ## Inputs
 
+### `action`
+
+**Optional** check, uncheck or detect. This default to `'check'`
+
 ### `list`
 
-**Optional** However, one of the list and matches required.
+**Optional** However, one of the list and matches required when check, uncheck
+action.
 Line separated List of checkboxes to modify.
 
 ### `matches`
 
-**Optional** However, one of the list and matches required.
+**Optional** However, one of the list and matches required when check, uncheck
+action.
 Regular expression for the checkbox to modify.
-
-### `action`
-
-**Optional** check, uncheck or detect. This default to `'check'`
 
 ### `error`
 

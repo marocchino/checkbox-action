@@ -1,5 +1,5 @@
 name: 'Checkbox Action'
-description: 'Checks or unchecks a checkbox in the body of the pull request.'
+description: 'Checks or unchecks a checkbox in the body of the pull request, or returns the list confirming the change in the checkbox.'
 author: 'marocchino'
 github-token:
   action-input:
@@ -11,6 +11,10 @@ github-token:
     pull-requests-reason: to update PR body
 
 inputs:
+  action:
+    required: false
+    description: 'check, uncheck or detect. This default to check'
+    default: 'check'
   list:
     required: false
     description: 'Line separated List of checkboxes to modify. ex) list 1\nlist 2'
@@ -19,10 +23,6 @@ inputs:
     required: false
     description: 'Regular expression for the checkbox to modify.'
     default: ''
-  action:
-    required: false
-    description: 'check, uncheck or detect. This default to check'
-    default: 'check'
   error:
     required: false
     description: 'error, warn or ignore. Specifies whether to skip or raise an error when error occurred. This defaults to error'

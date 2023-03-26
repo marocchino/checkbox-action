@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 
-export type Action = 'check' | 'uncheck'
+export type Action = 'check' | 'uncheck' | 'detect'
 export type ErrorLevel = 'error' | 'warn' | 'ignore'
 
 export const list = core.getMultilineInput('list', {required: false})

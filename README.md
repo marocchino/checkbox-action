@@ -34,6 +34,34 @@ I think the most common use is to visualize the results of CI execution, and her
           error: 'warn'
 ```
 
+Here's an example of checking to see if a particular checkbox has been checked recently.
+Unchecking works the same way.
+> NOTE: I don't think detect will work again on events other than edit.
+
+```yaml
+on:
+  pull_request:
+    types:
+      - edited
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      checked: ${{ steps.detect.outputs.checked }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: marocchino/checkbox-action@v1
+        id: detect
+        with:
+          action: 'detect'
+  test:
+    needs: detect
+    if: ${{ contains(fromJSON(needs.detect.outputs.checked), 'trigger test') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Add your CI here
+```
+
 ## Inputs
 
 ### `list`
@@ -48,7 +76,7 @@ Regular expression for the checkbox to modify.
 
 ### `action`
 
-**Optional** check, uncheck. This default to `'check'`
+**Optional** check, uncheck or detect. This default to `'check'`
 
 ### `error`
 
@@ -60,4 +88,12 @@ Regular expression for the checkbox to modify.
 
 ## Outputs
 
-No output
+Only available on `detect` action.
+
+### `checked`
+
+Returns a list of checked items from the previous modification as json in []string.
+
+### `unchecked`
+
+Returns a list of checked items from the previous modification as json in []string.

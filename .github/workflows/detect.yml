@@ -1,0 +1,18 @@
+name: 'detect-test'
+on:
+  pull_request:
+    types:
+      - edited
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        id: detect
+        with:
+          action: 'detect'
+      - run: |
+          echo ${{ steps.detect.outputs.checked }}
+          echo ${{ steps.detect.outputs.unchecked }}
+          echo ${{ toJson(github) }}

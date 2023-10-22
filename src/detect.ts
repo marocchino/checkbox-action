@@ -22,28 +22,48 @@ export function getPreviousChecked(previousBody: string): string[] {
   const previousLines = previousBody.split('\n')
   return previousLines
     .filter(line => CHECK_REGEXP.test(line))
-    .map(line => line.replace(CHECK_REGEXP, ''))
+    .map(line =>
+      line
+        .replace(CHECK_REGEXP, '')
+        // remove trailing newline
+        .replace(/[\n\r]/, '')
+    )
 }
 
 export function getPreviousUnchecked(previousBody: string): string[] {
   const previousLines = previousBody.split('\n')
   return previousLines
     .filter(line => UNCHECK_REGEXP.test(line))
-    .map(line => line.replace(UNCHECK_REGEXP, ''))
+    .map(line =>
+      line
+        .replace(UNCHECK_REGEXP, '')
+        // remove trailing newline
+        .replace(/[\n\r]/, '')
+    )
 }
 
 export function getCurrentChecked(currentBody: string): string[] {
   const currentLines = currentBody.split('\n')
   return currentLines
     .filter(line => CHECK_REGEXP.test(line))
-    .map(line => line.replace(CHECK_REGEXP, ''))
+    .map(line =>
+      line
+        .replace(CHECK_REGEXP, '')
+        // remove trailing newline
+        .replace(/[\n\r]/, '')
+    )
 }
 
 export function getCurrentUnchecked(currentBody: string): string[] {
   const currentLines = currentBody.split('\n')
   return currentLines
     .filter(line => UNCHECK_REGEXP.test(line))
-    .map(line => line.replace(UNCHECK_REGEXP, ''))
+    .map(line =>
+      line
+        .replace(UNCHECK_REGEXP, '')
+        // remove trailing newline
+        .replace(/[\n\r]/, '')
+    )
 }
 
 export function getDiff(

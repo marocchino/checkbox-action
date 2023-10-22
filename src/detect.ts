@@ -4,7 +4,7 @@ export function getPreviousBody(): string {
   if (!github.context.payload.pull_request) {
     throw new Error('This action only supports pull_request events')
   }
-  return github.context.payload.changes.body.from
+  return github.context.payload.changes?.body?.from || ''
 }
 
 export function getCurrentBody(): string {

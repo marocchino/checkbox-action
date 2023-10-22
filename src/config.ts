@@ -10,3 +10,11 @@ export const action: Action = core.getInput('action', {
 }) as Action
 export const error = core.getInput('error', {required: true}) as ErrorLevel
 export const token = core.getInput('GITHUB_TOKEN', {required: true})
+
+export type ConfigPayload = {
+  list: string[]
+  matches: string
+  action: Action
+  error: ErrorLevel
+  token: string
+}

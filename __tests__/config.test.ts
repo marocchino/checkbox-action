@@ -1,5 +1,5 @@
 import {beforeEach, afterEach, expect, jest, test} from '@jest/globals'
-import type {Action, ErrorLevel} from '../src/config'
+import type {ConfigPayload} from '../src/config'
 
 beforeEach(() => {
   process.env['INPUT_LIST'] = ''
@@ -19,11 +19,15 @@ afterEach(() => {
 })
 
 test('config', async () => {
-  expect(require('../src/config')).toMatchObject({
+  const config = await import('../src/config')
+
+  const expected: ConfigPayload = {
     list: [],
     matches: '',
-    error: 'error' as ErrorLevel,
-    action: 'check' as Action,
+    error: 'error',
+    action: 'check',
     token: 'some-token'
-  })
+  }
+
+  expect<ConfigPayload>(config).toMatchObject(expected)
 })

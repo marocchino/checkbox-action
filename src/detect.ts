@@ -15,27 +15,46 @@ export function getCurrentBody(): string {
   return github.context.payload.pull_request.body || ''
 }
 
+const CHECK_REGEXP = /^\s*- \[x\] /
+const UNCHECK_REGEXP = /^\s*- \[ \] /
+
+export function getPreviousChecked(previousBody: string): string[] {
+  const previousLines = previousBody.split('\n')
+  return previousLines
+    .filter(line => CHECK_REGEXP.test(line))
+    .map(line => line.replace(CHECK_REGEXP, ''))
+}
+
+export function getPreviousUnchecked(previousBody: string): string[] {
+  const previousLines = previousBody.split('\n')
+  return previousLines
+    .filter(line => UNCHECK_REGEXP.test(line))
+    .map(line => line.replace(UNCHECK_REGEXP, ''))
+}
+
+export function getCurrentChecked(currentBody: string): string[] {
+  const currentLines = currentBody.split('\n')
+  return currentLines
+    .filter(line => CHECK_REGEXP.test(line))
+    .map(line => line.replace(CHECK_REGEXP, ''))
+}
+
+export function getCurrentUnchecked(currentBody: string): string[] {
+  const currentLines = currentBody.split('\n')
+  return currentLines
+    .filter(line => UNCHECK_REGEXP.test(line))
+    .map(line => line.replace(UNCHECK_REGEXP, ''))
+}
+
 export function getDiff(
   previousBody: string,
   currentBody: string
 ): {checked: string[]; unchecked: string[]} {
-  const previousLines = previousBody.split('\n')
-  const currentLines = currentBody.split('\n')
+  const prevChecked = getPreviousChecked(previousBody)
+  const prevUnchecked = getPreviousUnchecked(previousBody)
+  const currChecked = getCurrentChecked(currentBody)
+  const currUnchecked = getCurrentUnchecked(currentBody)
 
-  const checkRegexp = /^\s*- \[x\] /
-  const uncheckRegexp = /^\s*- \[ \] /
-  const prevChecked: string[] = previousLines
-    .filter(line => checkRegexp.test(line))
-    .map(line => line.replace(checkRegexp, ''))
-  const prevUnchecked: string[] = previousLines
-    .filter(line => uncheckRegexp.test(line))
-    .map(line => line.replace(uncheckRegexp, ''))
-  const currChecked: string[] = currentLines
-    .filter(line => checkRegexp.test(line))
-    .map(line => line.replace(checkRegexp, ''))
-  const currUnchecked: string[] = currentLines
-    .filter(line => uncheckRegexp.test(line))
-    .map(line => line.replace(uncheckRegexp, ''))
   const checked = currChecked.filter(line => prevUnchecked.includes(line))
   const unchecked = currUnchecked.filter(line => prevChecked.includes(line))
 

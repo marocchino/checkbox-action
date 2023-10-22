@@ -1,16 +1,26 @@
 import * as core from '@actions/core'
 import {action, error} from './config'
 import {getBody, contains, update, mutate} from './check'
-import {getPreviousBody, getCurrentBody, getDiff} from './detect'
+import {
+  getPreviousBody,
+  getCurrentBody,
+  getDiff,
+  getCurrentChecked,
+  getCurrentUnchecked
+} from './detect'
 
 async function run(): Promise<void> {
   try {
     if (action === 'detect') {
       const previousBody = getPreviousBody()
       const currentBody = getCurrentBody()
-      const {checked, unchecked} = getDiff(previousBody, currentBody)
+      const changed = getDiff(previousBody, currentBody)
+      const checked = getCurrentChecked(currentBody)
+      const unchecked = getCurrentUnchecked(currentBody)
+
       core.setOutput('checked', JSON.stringify(checked))
       core.setOutput('unchecked', JSON.stringify(unchecked))
+      core.setOutput('changed', JSON.stringify(changed))
       return
     }
     let body = await getBody()

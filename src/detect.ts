@@ -18,8 +18,7 @@ export function getCurrentBody(): string {
 const CHECK_REGEXP = /^\s*- \[x\] /
 const UNCHECK_REGEXP = /^\s*- \[ \] /
 
-export function getPreviousChecked(previousBody: string): string[] {
-  const previousLines = previousBody.split('\n')
+export function getPreviousChecked(previousLines: string[]): string[] {
   return previousLines
     .filter(line => CHECK_REGEXP.test(line))
     .map(line =>
@@ -30,8 +29,7 @@ export function getPreviousChecked(previousBody: string): string[] {
     )
 }
 
-export function getPreviousUnchecked(previousBody: string): string[] {
-  const previousLines = previousBody.split('\n')
+export function getPreviousUnchecked(previousLines: string[]): string[] {
   return previousLines
     .filter(line => UNCHECK_REGEXP.test(line))
     .map(line =>
@@ -42,8 +40,7 @@ export function getPreviousUnchecked(previousBody: string): string[] {
     )
 }
 
-export function getCurrentChecked(currentBody: string): string[] {
-  const currentLines = currentBody.split('\n')
+export function getCurrentChecked(currentLines: string[]): string[] {
   return currentLines
     .filter(line => CHECK_REGEXP.test(line))
     .map(line =>
@@ -54,8 +51,7 @@ export function getCurrentChecked(currentBody: string): string[] {
     )
 }
 
-export function getCurrentUnchecked(currentBody: string): string[] {
-  const currentLines = currentBody.split('\n')
+export function getCurrentUnchecked(currentLines: string[]): string[] {
   return currentLines
     .filter(line => UNCHECK_REGEXP.test(line))
     .map(line =>
@@ -67,13 +63,13 @@ export function getCurrentUnchecked(currentBody: string): string[] {
 }
 
 export function getDiff(
-  previousBody: string,
-  currentBody: string
+  previousLines: string[],
+  currentLines: string[]
 ): {checked: string[]; unchecked: string[]} {
-  const prevChecked = getPreviousChecked(previousBody)
-  const prevUnchecked = getPreviousUnchecked(previousBody)
-  const currChecked = getCurrentChecked(currentBody)
-  const currUnchecked = getCurrentUnchecked(currentBody)
+  const prevChecked = getPreviousChecked(previousLines)
+  const prevUnchecked = getPreviousUnchecked(previousLines)
+  const currChecked = getCurrentChecked(currentLines)
+  const currUnchecked = getCurrentUnchecked(currentLines)
 
   const checked = currChecked.filter(line => prevUnchecked.includes(line))
   const unchecked = currUnchecked.filter(line => prevChecked.includes(line))

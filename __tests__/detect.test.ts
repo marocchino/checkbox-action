@@ -35,7 +35,10 @@ added line
   - [ ] item 2-4 unchecked
 `
 
-    const {checked, unchecked} = getDiff(previousBody, currentBody)
+    const {checked, unchecked} = getDiff(
+      previousBody.split('\n'),
+      currentBody.split('\n')
+    )
     expect(checked).toEqual(['item 2-1 checked', 'item 2-3 checked'])
     expect(unchecked).toEqual(['item 1 unchecked', 'item 2-4 unchecked'])
   })
@@ -59,7 +62,7 @@ added line
   - [ ] item 2-4 unchecked
 `
 
-    const checked = getCurrentChecked(currentBody)
+    const checked = getCurrentChecked(currentBody.split('\n'))
     expect(checked).toEqual([
       'item 0 unchanged',
       'item 2-1 checked',
@@ -67,6 +70,7 @@ added line
     ])
   })
 })
+
 describe('getCurrentUnChecked', () => {
   test('should return all unchecked items', () => {
     const currentBody = `
@@ -85,7 +89,7 @@ added line
   - [ ] item 2-4 unchecked
 `
 
-    const checked = getCurrentUnchecked(currentBody)
+    const checked = getCurrentUnchecked(currentBody.split('\n'))
     expect(checked).toEqual([
       'item 1 unchecked',
       'item 2 unchanged',
